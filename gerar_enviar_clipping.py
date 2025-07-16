@@ -39,8 +39,8 @@ def buscar_termo_no_querido_diario(termo):
         "number_of_excerpts": 10,
         "excerpt_size": 1000,
         "size": 200,
-        "pre_tags": "<mark>",
-        "post_tags": "</mark>", 
+        "pre_tags": "<span class=\"highlight\" style=\"background:#FFA;\">",
+        "post_tags": "</span>", 
     }
     try:
         resp = requests.get(url, params=params)
