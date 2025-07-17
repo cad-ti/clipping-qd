@@ -1,8 +1,8 @@
-name: Agenda Execução do Clipping
+name: Envio dos Clippings
 
 on:
   schedule:
-    - cron: '0 11 * * *'
+    - cron: '0 12 * * *' # 9h no horario de Brasilia
   workflow_dispatch:
 
 jobs:
