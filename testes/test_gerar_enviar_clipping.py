@@ -1,3 +1,5 @@
+import os
+import sys
 import unittest
 from unittest.mock import patch, MagicMock
 from gerar_enviar_clipping import (
@@ -6,6 +8,8 @@ from gerar_enviar_clipping import (
     gerar_corpo_email,
     enviar_email
 )
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 class TestClipping(unittest.TestCase):
 

@@ -21,7 +21,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-df_municipios = pd.read_csv("municipios_rj.csv")
+df_municipios = pd.read_csv("dados/municipios_rj.csv")
 codigos_ibge_rj = df_municipios["codigo_ibge"].tolist()
 
 ontem = date.today() - timedelta(days=1)
