@@ -80,7 +80,7 @@ def gerar_corpo_email(titulo, termos):
     
     return html if possui_resultado else ""
 
-def enviar_email(assunto, corpo_html, destinatarios):
+def enviar_email(destinatarios, assunto, corpo_html):
     msg = MIMEMultipart("alternative")
     msg["Subject"] = assunto
     msg["From"] = EMAIL_REMETENTE
@@ -91,11 +91,18 @@ def enviar_email(assunto, corpo_html, destinatarios):
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(EMAIL_REMETENTE, EMAIL_SENHA)
             server.sendmail(EMAIL_REMETENTE, destinatarios, msg.as_string())
-            logger.info(f"✅ E-mail enviado com sucesso para {destinatarios}")
+            logger.info(f"✅ E-mail enviado com sucesso para os destinatarios cadastrados")
     except Exception as e:
         logger.error(f"❌ Erro ao enviar e-mail: {e}")
 
-# Execução protegida para uso com GitHub Actions ou execução direta
+def carregar_destinatarios(yaml_config):
+    destinatarios = yaml_config.get("destinatarios", [])
+    if isinstance(destinatarios, list):
+        return destinatarios
+    else:
+        destinatarios_env = os.environ.get(destinatarios, "")
+        return [email.strip() for email in destinatarios_env.splitlines() if email.strip()]
+
 if __name__ == "__main__":
     for consulta in glob.glob("consultas/*.yaml"):
         logger.info(f"📁 Processando arquivo: {consulta}")
@@ -104,10 +111,10 @@ if __name__ == "__main__":
 
         titulo = config.get("titulo", "") 
         termos = config.get("termos_pesquisa", [])
-        destinatarios = config.get("destinatarios", [])
+        destinatarios = carregar_destinatarios(config)
 
         if not titulo or not termos or not destinatarios:
-            logger.warning(f"⚠️ Ignorado: arquivo {consulta} sem campos obrigatórios (titulo, termos ou destinatarios).")
+            logger.warning(f"⚠️ Ignorado: arquivo {consulta} sem campos obrigatórios (titulo, destinatarios ou termos_pesquisa).")
             continue
 
         titulo += f" - DOs de {ontem_fmt_br}"
@@ -117,7 +124,7 @@ if __name__ == "__main__":
             continue
 
         enviar_email(
+            destinatarios=destinatarios,
             assunto=titulo,
             corpo_html=corpo_html,
-            destinatarios=destinatarios
         )
