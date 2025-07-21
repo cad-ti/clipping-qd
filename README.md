@@ -27,8 +27,20 @@ Extrair informações dos diários oficiais de prefeituras do Rio de Janeiro com
 
 ## ⚙️ Requisitos
 
-- Python 3.10+
+- Python 3.13+
 - Conta de e-mail com senha de app (para envio via SMTP)
+
+### Criação do ambiente virtual
+
+```bash
+python -m venv .venv
+```
+
+### Ativação do ambiente virtual
+
+```bash
+.\.venv\Scripts\Activate.ps1
+```
 
 ### Instalação das dependências
 
@@ -42,11 +54,12 @@ pip install -r requirements.txt
 
 ```yaml
 titulo: Nome da Consulta
+destinatarios:
+  - exemplo1@email.com
+  - exemplo2@email.com
 termos_pesquisa:
   - educação
   - "merenda escolar"
-destinatarios:
-  - exemplo@email.com
 ```
 
 2. Execute o script principal:
@@ -78,4 +91,8 @@ O projeto possui dois workflows no GitHub:
 
 ## 📄 Licença
 
-Este projeto está licenciado sob os termos da [MIT License](LICENSE).
+Este projeto está licenciado sob os termos da [Creative Commons Legal Code](LICENSE).
+
+## 📧 Contato
+
+CAD-TI: [cad_ti@tcerj.tc.br](mailto:cad_ti@tcerj.tc.br)
