@@ -61,7 +61,7 @@ class TestClipping(unittest.TestCase):
     @patch("gerar_enviar_clipping.smtplib.SMTP_SSL")
     def test_enviar_email(self, mock_smtp):
         corpo = "<html><body>Teste</body></html>"
-        enviar_email("Assunto Teste", corpo, ["dest@teste.com"])
+        enviar_email(["dest@teste.com"], "Assunto Teste", corpo)
 
         mock_smtp.assert_called_with("smtp.gmail.com", 465)
         instance = mock_smtp.return_value.__enter__.return_value
