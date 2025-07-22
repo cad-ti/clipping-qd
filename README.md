@@ -27,7 +27,7 @@ Extrair informações dos diários oficiais de prefeituras do Rio de Janeiro com
 
 ## ⚙️ Requisitos
 
-- Python 3.13+
+- Python 3.10+
 - Conta de e-mail com senha de app (para envio via SMTP)
 
 ### Criação do ambiente virtual
@@ -45,7 +45,7 @@ python -m venv .venv
 ### Instalação das dependências
 
 ```bash
-pip install -r requirements.txt
+pip install requests pyyaml
 ```
 
 ## 🚀 Como executar

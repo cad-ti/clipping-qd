@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
+import csv
 import os
 import yaml
 import glob
 import logging
-import pandas as pd
 import requests
 import smtplib
 from datetime import date, timedelta
@@ -21,19 +21,25 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-df_municipios = pd.read_csv("dados/municipios_rj.csv")
-codigos_ibge_rj = df_municipios["codigo_ibge"].tolist()
-
 ontem = date.today() - timedelta(days=1)
 ontem_fmt_iso8601 = ontem.strftime("%Y-%m-%d")
 ontem_fmt_br = ontem.strftime("%d/%m/%Y")
+
+def carregar_codigos_ibge():
+    codigos = []
+    with open("dados/municipios_rj.csv", newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            codigos.append(row["codigo_ibge"])
+    return codigos
+CODIGOS_IBGE_RJ = carregar_codigos_ibge()
 
 def buscar_termo_no_querido_diario(termo):
     # DOC API: https://queridodiario.ok.org.br/api/docs#/default/Search_for_content_in_gazettes_gazettes_get
     url = "https://queridodiario.ok.org.br/api/gazettes"
     params = {
         "querystring": termo,
-        "territory_ids": codigos_ibge_rj,
+        "territory_ids": CODIGOS_IBGE_RJ,
         "published_since": ontem_fmt_iso8601,
         "published_until": ontem_fmt_iso8601,
         "number_of_excerpts": 10,
